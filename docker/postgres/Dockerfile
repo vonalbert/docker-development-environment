@@ -1,0 +1,4 @@
+ARG VERSION
+FROM postgres:${VERSION}
+
+ENV POSTGRES_PASSWORD password

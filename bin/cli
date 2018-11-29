@@ -1,0 +1,54 @@
+#!/usr/bin/env php
+<?php
+
+if (PHP_VERSION_ID < 70000) {
+    die('PHP >= 7.0 is required.');
+}
+
+// ==========================================================
+// Functions
+// ==========================================================
+function ensure_docker_compose()
+{
+    if (!file_exists(__DIR__ . '/../docker-compose.yaml')) {
+        exec(__DIR__ . '/generate-docker-compose');
+    }
+}
+
+function clean_docker_compose()
+{
+    if (file_exists(__DIR__ . '/../docker-compose.yaml')) {
+        unlink(__DIR__ . '/../docker-compose.yaml');
+    }
+}
+
+function docker_compose($args)
+{
+    exec('docker-compose ' . $args);
+}
+
+
+
+// ==========================================================
+// Init
+// ==========================================================
+if (!is_dir(__DIR__ . '/../vendor')) {
+    exec(sprintf('cd %s && composer install --no-dev -o --no-plugins -q', dirname(__DIR__)));
+}
+
+switch ($argv[1] ?? 'start') {
+    case 'start':
+        ensure_docker_compose();
+        docker_compose('up -d');
+        break;
+
+    case 'stop':
+        ensure_docker_compose();
+        docker_compose('down');
+        break;
+
+    case 'clean':
+        clean_docker_compose();
+        ensure_docker_compose();
+        break;
+}
