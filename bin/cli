@@ -32,10 +32,6 @@ function docker_compose($args)
 // ==========================================================
 // Init
 // ==========================================================
-if (!is_dir(__DIR__ . '/../vendor')) {
-    exec(sprintf('cd %s && composer install --no-dev -o --no-plugins -q', dirname(__DIR__)));
-}
-
 switch ($argv[1] ?? 'start') {
     case 'start':
         ensure_docker_compose();

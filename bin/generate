@@ -1,12 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-use Symfony\Component\Yaml\Yaml;
-
-require __DIR__ . '/../vendor/autoload.php';
-
-
-$config = Yaml::parseFile(__DIR__ . '/../config.yaml');
+$config = json_decode(file_get_contents(__DIR__ . '/../config.json'), true);
 
 $compose = [
     'version' => '3.7',
