@@ -11,7 +11,7 @@ if (PHP_VERSION_ID < 70000) {
 function ensure_docker_compose()
 {
     if (!file_exists(__DIR__ . '/../docker-compose.yaml')) {
-        exec(__DIR__ . '/generate-docker-compose');
+        exec(__DIR__ . '/generate');
     }
 }
 
@@ -24,7 +24,7 @@ function clean_docker_compose()
 
 function docker_compose($args)
 {
-    exec('docker-compose ' . $args);
+    exec('docker-compose -f docker-compose.json ' . $args);
 }
 
 

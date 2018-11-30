@@ -1,0 +1,31 @@
+#!/usr/bin/env php
+<?php
+
+use Symfony\Component\Yaml\Yaml;
+
+require __DIR__ . '/../vendor/autoload.php';
+
+
+$config = Yaml::parseFile(__DIR__ . '/../config.yaml');
+
+$compose = [
+    'version' => '3.7',
+    'services' => [],
+];
+
+
+include __DIR__ . '/../docker/phpmyadmin/load.php';
+include __DIR__ . '/../docker/pgadmin/load.php';
+include __DIR__ . '/../docker/mysql/load.php';
+include __DIR__ . '/../docker/postgres/load.php';
+
+
+// Generate docker compose file
+$file = __DIR__ . '/../docker-compose.json';
+$content = json_encode($compose, JSON_UNESCAPED_SLASHES);
+
+if (file_put_contents($file, $content) === false) {
+    die(1);
+}
+
+die(0);
