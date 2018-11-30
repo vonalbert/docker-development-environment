@@ -1,6 +1,5 @@
-#!/usr/bin/env php
-<?php
+#!/bin/bash
 
-require __DIR__ . '/_init.php';
+DIR=$(cd `dirname $0` && pwd)
 
-docker_compose_generate();
+php "$DIR/../generator/generate.php"

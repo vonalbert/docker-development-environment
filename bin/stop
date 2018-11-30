@@ -1,6 +1,3 @@
-#!/usr/bin/env php
-<?php
+#!/bin/bash
 
-require __DIR__ . '/_init.php';
-
-docker_compose('down');
+docker-compose -f docker-compose.json down
