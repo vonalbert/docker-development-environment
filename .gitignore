@@ -2,3 +2,4 @@ var/
 vendor/
 .idea/
 nbproject/
+docker-compose.*
