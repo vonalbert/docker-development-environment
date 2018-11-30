@@ -4,21 +4,19 @@
 // MySQL Services Configuration
 // -------------------------------------------------------------
 
-if (empty($config['mysql'])) {
-    return;
-}
+$config = require __DIR__ . '/_config.php';
 
+$hosts = [];
 
-$pma_hosts = [];
+foreach ($config as $instance) {
+    $version = $instance['version'];
+    $port = $instance['port'];
 
-foreach ($config['mysql'] as $mysql) {
-    $version = $mysql['version'];
-    $port = $mysql['port'];
-    $host = sprintf('mysql_%s', str_replace('.', '', $version));
+    $hosts[] = $host = sprintf('mysql_%s', str_replace('.', '', $version));
 
     $compose['services'][$host] = [
         'build' => [
-            'context' => 'docker/mysql',
+            'context' => __DIR__,
             'args' => ['VERSION' => $version],
         ],
         'volumes' => [
@@ -28,9 +26,7 @@ foreach ($config['mysql'] as $mysql) {
             sprintf('%d:3306', $port),
         ],
     ];
-
-    $compose['services']['phpmyadmin']['links'][] = $host;
-    $pma_hosts[] = $host;
 }
 
-$compose['services']['phpmyadmin']['environment']['PMA_HOSTS'] = implode(',', $pma_hosts);
+$compose['services']['phpmyadmin']['links'] = $hosts;
+$compose['services']['phpmyadmin']['environment']['PMA_HOSTS'] = implode(',', $hosts);

@@ -4,16 +4,11 @@
 // PgAdmin Configuration
 // -------------------------------------------------------------
 
-if (empty($config['pgadmin'])) {
-    return;
-}
+$config = require __DIR__ . '/_config.php';
 
-
-$pgadmin = $config['pgadmin'];
-
-$port = $pgadmin['port'] ?? 80;
-$email = $pgadmin['email'] ?? null;
-$password = $pgadmin['password'] ?? null;
+$port = $config['port'] ?? 80;
+$email = $config['email'] ?? null;
+$password = $config['password'] ?? null;
 
 $compose['services']['pgadmin'] = [
     'image' => 'dpage/pgadmin4',

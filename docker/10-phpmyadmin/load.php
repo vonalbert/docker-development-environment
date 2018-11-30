@@ -4,13 +4,9 @@
 // PHPMyAdmin Services Configuration
 // -------------------------------------------------------------
 
-if (empty($config['phpmyadmin'])) {
-    return;
-}
+$config = require __DIR__ . '/_config.php';
 
-
-$phpmyadmin = $config['phpmyadmin'];
-$port = $phpmyadmin['port'] ?? 80;
+$port = $config['port'] ?? 80;
 
 $compose['services']['phpmyadmin'] = [
     'image' => 'phpmyadmin/phpmyadmin',

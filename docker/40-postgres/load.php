@@ -4,19 +4,19 @@
 // PostgreSQL Services Configuration
 // -------------------------------------------------------------
 
-if (empty($config['postgres'])) {
-    return;
-}
+$config = require __DIR__ . '/_config.php';
 
+$hosts = [];
 
-foreach ($config['postgres'] as $postgres) {
-    $version = $postgres['version'];
-    $port = $postgres['port'];
-    $host = sprintf('pgsql_%s', str_replace('.', '', $version));
+foreach ($config as $instance) {
+    $version = $instance['version'];
+    $port = $instance['port'];
+
+    $hosts[] = $host = sprintf('pgsql_%s', str_replace('.', '', $version));
 
     $compose['services'][$host] = [
         'build' => [
-            'context' => 'docker/postgres',
+            'context' => __DIR__,
             'args' => ['VERSION' => $version],
         ],
         'volumes' => [
@@ -26,6 +26,6 @@ foreach ($config['postgres'] as $postgres) {
             sprintf('%d:5432', $port),
         ],
     ];
-
-    $compose['services']['pgadmin']['links'][] = $host;
 }
+
+$compose['services']['pgadmin']['links'][] = $host;
