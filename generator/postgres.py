@@ -3,6 +3,8 @@ def add_configuration(compose, config):
     for version in config['versions']:
         port = config['versions'][version]
         host = 'pgsql_'+version.replace('.', '')
+        pg_hosts.append(host)
+
         compose['services'][host] = {
             'build': {
                 'context': 'docker/postgres',
@@ -16,4 +18,4 @@ def add_configuration(compose, config):
             ],
         }
 
-    compose['services']['pgadmin']['links'] = host
+    compose['services']['pgadmin']['links'] = pg_hosts
