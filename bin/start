@@ -2,5 +2,8 @@
 
 DIR=$(cd `dirname $0` && pwd)
 
-python "$DIR/../generator/main.py"
+if [[ ! -f "$DIR/../docker-compose.json" ]]; then
+    "$DIR/generate"
+fi
+
 docker-compose -f docker-compose.json up -d
