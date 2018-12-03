@@ -4,4 +4,6 @@ vendor/
 nbproject/
 docker-compose.*
 
+config.json
+
 *.pyc

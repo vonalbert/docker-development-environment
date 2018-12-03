@@ -2,5 +2,5 @@
 
 DIR=$(cd `dirname $0` && pwd)
 
-php "$DIR/../generator/generate.php"
+python "$DIR/../generator/main.py"
 docker-compose -f docker-compose.json up -d
